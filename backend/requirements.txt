@@ -1,4 +1,4 @@
-﻿asgiref==3.12.1
+asgiref==3.12.1
 certifi==2026.7.22
 charset-normalizer==3.4.9
 Django==6.0.7
@@ -9,8 +9,6 @@ django-ratelimit==4.1.0
 djangorestframework==3.17.1
 djangorestframework_simplejwt==5.5.1
 idna==3.18
-mysqlclient==2.2.8
-Panda3D==1.10.16
 pillow==12.3.0
 PyJWT==2.13.0
 PyMySQL==1.2.0
