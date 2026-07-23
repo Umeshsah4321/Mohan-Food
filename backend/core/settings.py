@@ -98,12 +98,12 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 # If running on Vercel (or missing MySQL), fallback to SQLite to avoid crashing on boot
-# Vercel filesystem is read-only, so SQLite won't persist data, but it prevents the 500 error!
+# Vercel filesystem is read-only, so SQLite MUST be placed in /tmp to prevent crash!
 if os.environ.get('VERCEL') == '1' and not os.environ.get('DB_HOST'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
         }
     }
 else:
