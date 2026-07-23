@@ -35,7 +35,7 @@ DEBUG = env('DEBUG')
 KHALTI_SECRET_KEY = env('KHALTI_SECRET_KEY', default='')
 ESEWA_SECRET_KEY = env('ESEWA_SECRET_KEY', default='')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1'] if DEBUG else env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = ['*'] # Allow all hosts for Vercel deployment (or specify ['.vercel.app'])
 
 
 # Application definition
@@ -157,6 +157,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 AUTH_USER_MODEL = 'users.User'
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True # Allow all origins so Vercel frontend can connect to Vercel backend
 CORS_ALLOWED_ORIGINS = [
     env('FRONTEND_URL', default='http://localhost:5173')
 ]
