@@ -97,25 +97,27 @@ WSGI_APPLICATION = 'core.wsgi.application'
 import pymysql
 pymysql.install_as_MySQLdb()
 
-# If running on Vercel (or missing MySQL), fallback to SQLite to avoid crashing on boot
-# Vercel filesystem is read-only, so SQLite MUST be placed in /tmp to prevent crash!
-if os.environ.get('VERCEL') == '1' and not os.environ.get('DB_HOST'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/tmp/db.sqlite3',
-        }
+# Database configuration
+# Uses cloud MySQL (Aiven) when DB_HOST is set, otherwise falls back to local MySQL
+import ssl as _ssl
+
+_db_host = env('DB_HOST', default='localhost')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME', default='food'),
+        'USER': env('DB_USER', default='root'),
+        'PASSWORD': env('DB_PASSWORD', default=''),
+        'HOST': _db_host,
+        'PORT': env('DB_PORT', default='3306'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': env('DB_NAME', default='food'),
-            'USER': env('DB_USER', default='root'),
-            'PASSWORD': env('DB_PASSWORD', default=''),
-            'HOST': env('DB_HOST', default='localhost'),
-            'PORT': env('DB_PORT', default='3306'),
-        }
+}
+
+# Aiven requires SSL connections
+if _db_host != 'localhost':
+    DATABASES['default']['OPTIONS'] = {
+        'ssl': {'ca': None, 'check_hostname': False},
     }
 
 
