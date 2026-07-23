@@ -223,13 +223,13 @@ LOGGING = {
         'file_security': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'security.log'),
+            'filename': '/tmp/security.log' if os.environ.get('VERCEL') == '1' else os.path.join(BASE_DIR, 'security.log'),
             'formatter': 'verbose',
         },
         'file_error': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'error.log'),
+            'filename': '/tmp/error.log' if os.environ.get('VERCEL') == '1' else os.path.join(BASE_DIR, 'error.log'),
             'formatter': 'verbose',
         },
     },
